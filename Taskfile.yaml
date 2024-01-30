@@ -1,0 +1,13 @@
+version: "3"
+
+
+tasks:
+  local:
+    aliases:
+      - loc
+    cmd: go run cmd/main.go --config=./config/local.yaml
+
+  development:
+    aliases:
+      - dev
+    cmd: go run cmd/main.go --config=./config/dev.yaml
