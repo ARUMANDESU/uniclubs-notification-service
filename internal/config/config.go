@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Env      string `yaml:"env" env:"ENV" env-default:"local"`
 	Rabbitmq `yaml:"rabbitmq"`
+	Mailer   `yaml:"mailer"`
 }
 
 type Rabbitmq struct {
@@ -17,6 +18,14 @@ type Rabbitmq struct {
 	Password string `yaml:"password" env:"RABBITMQ_PASSWORD"`
 	Host     string `yaml:"host" env:"RABBITMQ_HOST"`
 	Port     string `yaml:"port" env:"RABBITMQ_PORT"`
+}
+
+type Mailer struct {
+	Host     string `yaml:"host" env:"MAILER_HOST"`
+	Port     int    `yaml:"port" env:"MAILER_port"`
+	Username string `yaml:"username" env:"MAILER_USERNAME"`
+	Password string `yaml:"password" env:"MAILER_PASSWORD"`
+	Sender   string `yaml:"sender" env:"MAILER_SENDER"`
 }
 
 func MustLoad() *Config {
