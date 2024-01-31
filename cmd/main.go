@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/ARUMANDESU/uniclubs-notification-service/internal/app"
 	"github.com/ARUMANDESU/uniclubs-notification-service/internal/config"
 	"log/slog"
 	"os"
@@ -18,7 +19,10 @@ func main() {
 	log := setupLogger(cfg.Env)
 	log.Info("starting notification service")
 
-	//todo: start application
+	application := app.New(cfg, log)
+
+	_ = application.Start()
+
 	//todo: graceful shutdown
 }
 

@@ -8,7 +8,15 @@ import (
 )
 
 type Config struct {
-	Env string `yaml:"env" env:"ENV" env-default:"local"`
+	Env      string `yaml:"env" env:"ENV" env-default:"local"`
+	Rabbitmq `yaml:"rabbitmq"`
+}
+
+type Rabbitmq struct {
+	User     string `yaml:"user" env:"RABBITMQ_USER"`
+	Password string `yaml:"password" env:"RABBITMQ_PASSWORD"`
+	Host     string `yaml:"host" env:"RABBITMQ_HOST"`
+	Port     string `yaml:"port" env:"RABBITMQ_PORT"`
 }
 
 func MustLoad() *Config {
