@@ -1,9 +1,9 @@
-{{define "subject"}}Welcome to AITU UMS!{{end}}
+{{define "subject"}}Welcome to AITU UCMS!{{end}}
 {{define "plainBody"}}
-Hi,
-Thanks for signing up for a AITU UMS account.
+Hi, {{.FirstName}}
+Thanks for signing up for a AITU UCMS account.
 Please click link to activate your account:
-activate
+Activate
 Please note that this is a one-time use token and it will expire in 3 days.
 Thanks
 {{end}}
@@ -16,9 +16,9 @@ Thanks
 </head>
 <body>
 <p>Hi, {{.FirstName}}</p>
-<p>Thanks for signing up for a AITU UMS account.</p>
+<p>Thanks for signing up for a AITU UCMS account.</p>
 <p></p>
-<a href="/v1/users/activation/?token={{.Token}}" >activate</a>
+<a href="/v1/users/activation/?token={{.Token}}" >Activate</a>
 <p>Please note that this is a one-time use token and it will expire in 1 day.</p>
 <p>Thanks</p>
 </body>

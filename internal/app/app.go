@@ -40,7 +40,7 @@ func (a *App) Start() error {
 	log := a.log.With(slog.String("op", op))
 
 	//todo: instead of this handler write proper one
-	err := a.Rmq.Consume("notification_queue", a.handlers.EmailVerification)
+	err := a.Rmq.Consume("user_activation_email_queue", a.handlers.EmailVerification)
 	if err != nil {
 		log.Error("consume error", logger.Err(err))
 		return fmt.Errorf("%s: %w", op, err)
