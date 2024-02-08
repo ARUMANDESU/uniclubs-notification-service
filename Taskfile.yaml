@@ -11,3 +11,8 @@ tasks:
     aliases:
       - dev
     cmd: go run cmd/main.go --config=./config/dev.yaml
+
+  docker-image:
+    aliases:
+      - doc-img
+    cmd: docker build -t arumandesu/ucms-notification-service -t arumandesu/ucms-notification-service:0.0.1 . && docker push arumandesu/ucms-notification-service -a
