@@ -39,7 +39,7 @@ func New(cfg config.Rabbitmq, log *slog.Logger) (*Rabbitmq, error) {
 	return &Rabbitmq{conn: conn, ch: ch, log: log}, nil
 }
 
-func (r *Rabbitmq) Consume(queue string, handler Handler) error {
+func (r *Rabbitmq) Consume(queue, routingKey string, handler Handler) error {
 	const op = "Rabbitmq.Consume"
 	log := r.log.With(
 		slog.String("op", op),
@@ -87,6 +87,9 @@ func (r *Rabbitmq) Consume(queue string, handler Handler) error {
 
 	go func() {
 		for d := range msgs {
+			if d.RoutingKey != routingKey {
+				continue
+			}
 
 			err = handler(d)
 			if err != nil {
