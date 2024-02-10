@@ -11,8 +11,7 @@ import (
 type Handler func(msg amqp091.Delivery) error
 
 type Amqp interface {
-	Publish(queue string, task string, v any) error
-	Consume(queue string) error
+	Consume(queue string, routingKey string, handler Handler) error
 }
 
 type Rabbitmq struct {
@@ -46,20 +45,7 @@ func (r *Rabbitmq) Consume(queue, routingKey string, handler Handler) error {
 		slog.With("queue", queue),
 	)
 
-	_, err := r.ch.QueueDeclare(
-		queue,
-		true,
-		false, // delete when unused
-		false,
-		false,
-		nil,
-	)
-	if err != nil {
-		log.Error("failed to declare a queue", logger.Err(err))
-		return fmt.Errorf("%s: %w", op, err)
-	}
-
-	err = r.ch.Qos(
+	err := r.ch.Qos(
 		1,
 		0,
 		false,
@@ -87,7 +73,12 @@ func (r *Rabbitmq) Consume(queue, routingKey string, handler Handler) error {
 
 	go func() {
 		for d := range msgs {
+			log.Debug("routing key", slog.String("key", d.RoutingKey))
 			if d.RoutingKey != routingKey {
+				err := d.Reject(true)
+				if err != nil {
+					log.Warn("failed to negatively acknowledge", logger.Err(err))
+				}
 				continue
 			}
 
